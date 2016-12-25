@@ -9,7 +9,6 @@ func splitString(_ str:String, everyCharacters splitNumber:Int) -> [String] {
     
     let arra = Array(str.characters)
     
-    
     for (i, _) in arra.enumerated() {
         
         let rest : Int = (i + splitNumber) - str.characters.count
@@ -18,22 +17,18 @@ func splitString(_ str:String, everyCharacters splitNumber:Int) -> [String] {
             let start = str.index(str.startIndex, offsetBy: i)
             let end = str.index(str.endIndex, offsetBy: rest)
             let range = start..<end
-            print("rest ",rest)
             let substring = str.substring(with: range)
             result.append(substring)
         }
         else{
             break
         }
-        
-        
     }
     
     return result
 }
 
-func repetionDic(str:String) -> [String:Bool]{
-    
+func getEvenOddDictionary(str:String) -> [String:Bool]{
     
     var result = [String:Bool]()
     
@@ -53,24 +48,19 @@ func repetionDic(str:String) -> [String:Bool]{
 
 func isCapicua(str:String) -> Bool{
     
-    let repetionDicc = repetionDic(str: str)
+    let repetionDicc = getEvenOddDictionary(str: str)
     
-    let isEven :Bool = (str.characters.count == 1 || str.characters.count % 2 == 1) ? false : true
-
+    let isEven :Bool = (str.characters.count % 2 == 0) ? true : false
+    
     
     var result = true
     
     if isEven {
-        let resul = repetionDicc.filter {
-            $0.1 == false
-        }
-        result = (resul.count > 0) ? false : true
+        let filterResult = repetionDicc.filter { $0.1 == false }
+        result = (filterResult.count > 0) ? false : true
     } else {
-        let resul = repetionDicc.filter {
-            $0.1 == false
-        }
-
-        result = (resul.count > 1) ? false : true
+        let filterResult = repetionDicc.filter { $0.1 == false }
+        result = (filterResult.count > 1) ? false : true
     }
     
     return result
@@ -83,9 +73,9 @@ func result(_ chain:String) -> [String]{
     
     var result = [String]()
     
-    let arra = Array(chain.characters)
+    let chainArray = Array(chain.characters)
     
-    for (i, _) in arra.enumerated() {
+    for (i, _) in chainArray.enumerated() {
         let splitArray = splitString(chain, everyCharacters: i + 1)
         for str in splitArray {
             if (isCapicua(str: str)) {
